@@ -1,9 +1,19 @@
+using AsyncHandler.EventSourcing;
+using AsyncHandler.EventSourcing.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var conn = builder.Configuration["AzureSqlDatabase"] ??
+    throw new Exception($"not connection string found");
+builder.Services.AddAsyncHandler(ah =>
+{
+    ah.AddEventSourcing(source => source.SelectEventSource(EventSources.AzureSql, conn));
+});
 
 var app = builder.Build();
 
@@ -16,29 +26,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapPost("placeorder", async (IEventSource<OrderAggregate> service) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var aggregate = await service.CreateOrRestore();
+    aggregate.PlaceOrder(new OrderPlaced());
+    await service.Commit(aggregate);
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
