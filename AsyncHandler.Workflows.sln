@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncHandler.Workflows", "AsyncHandler.Workflows\AsyncHandler.Workflows.csproj", "{55D6912C-0254-4583-84C5-C61384EEB9CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncHandler.Workflows.Tests", "AsyncHandler.Workflows.Tests\AsyncHandler.Workflows.Tests.csproj", "{2FC70898-853B-4BD1-A264-AF9C59E2FD4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{55D6912C-0254-4583-84C5-C61384EEB9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D6912C-0254-4583-84C5-C61384EEB9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D6912C-0254-4583-84C5-C61384EEB9CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC70898-853B-4BD1-A264-AF9C59E2FD4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC70898-853B-4BD1-A264-AF9C59E2FD4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC70898-853B-4BD1-A264-AF9C59E2FD4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC70898-853B-4BD1-A264-AF9C59E2FD4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
