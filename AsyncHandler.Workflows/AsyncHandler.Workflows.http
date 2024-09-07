@@ -1,0 +1,6 @@
+@AsyncHandler.Workflows_HostAddress = http://localhost:5293
+
+GET {{AsyncHandler.Workflows_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
