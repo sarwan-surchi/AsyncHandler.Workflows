@@ -70,9 +70,9 @@ public class AsyncHAndlerTests
         .AddEnvironmentVariables();
         return source switch
         {
-            EventSources.SqlServer => builder.Build().GetValue<string>("sqlserverdatabase") ??
+            EventSources.SqlServer => builder.Build().GetValue<string>("mssqlenv") ??
                 throw new Exception("no connection string found"),
-            EventSources.AzureSql => builder.Build().GetValue<string>("azuresqldatabase") ??
+            EventSources.AzureSql => builder.Build().GetValue<string>("azuresqlenv") ??
                 throw new Exception("no connection string found"),
             _ => string.Empty
         };
