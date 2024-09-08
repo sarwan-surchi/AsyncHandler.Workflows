@@ -40,7 +40,7 @@ jobs:
 
     - id: get-id
       run: |
-        id=$(echo ${{ github.event.client_payload.value }} | cut -d- -f2)
+        id=$(echo ${{ github.event.client_payload.value }})
         echo "id=$id" >> $GITHUB_OUTPUT
 
     - name: show info
