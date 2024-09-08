@@ -38,7 +38,7 @@ jobs:
     - name: Run scripts
       run: ./scripts.sh
 
-  build:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,15 +52,7 @@ jobs:
 
     - name: Build
       run: dotnet build --no-restore
-
-  test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
-
-    steps:
-    - uses: actions/checkout@v4
-    
+      
     - name: Test
-      run: dotnet test --verbosity normal
+      run: dotnet test --no-build --verbosity normal
+    
