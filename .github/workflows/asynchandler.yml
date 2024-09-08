@@ -40,7 +40,7 @@ jobs:
 
     - name: change dir
       run:
-          working-directory: ./src
+        working-directory: ./src
 
     - name: Restore
       run: dotnet restore
