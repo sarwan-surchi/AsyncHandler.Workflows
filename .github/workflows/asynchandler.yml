@@ -1,5 +1,5 @@
 
-name: asynchandler
+name: asynchandler ci
 
 on:
   push:
@@ -10,11 +10,11 @@ on:
 env:
   azuresqlenv: ${{ secrets.AZURESQLDATABASE }}
   mssqlenv: "Server=localhost,1433;Initial Catalog=asynchandler;Persist Security Info=False;User ID=sa;Password=sysadmin@2024;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=true;Connection Timeout=10;"
-  mssql_db: asynchandler
-  mssql_password: sysadmin@2024
+  mssqldb: asynchandler
+  mssqlpassword: sysadmin@2024
 
 jobs:
-  build:
+  prepare:
 
     runs-on: ubuntu-latest
 
@@ -25,22 +25,40 @@ jobs:
           - 1433:1433
         env:
           ACCEPT_EULA: true
-          MSSQL_SA_PASSWORD: ${{ env.mssql_password }}
+          MSSQL_SA_PASSWORD: ${{ env.mssqlpassword }}
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup .NET
+    - name: Install sdk
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
+
+    - name: Run scripts
+      run: ./scripts.sh
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Restore
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
 
-    - name: create db
-      run: ./script.sh
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
+    steps:
     - name: Test
       run: dotnet test --no-build --verbosity normal
