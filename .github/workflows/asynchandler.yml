@@ -14,8 +14,25 @@ env:
   mssqlpassword: sysadmin@2024
 
 jobs:
-  prepare:
+  
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+  test:
+    if: ${{ success() }}
+    needs: build
     runs-on: ubuntu-latest
 
     services:
@@ -30,32 +47,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Run scripts
+      run: ./scripts.sh
+
     - name: Install sdk
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-
-    - name: Run scripts
-      run: ./scripts.sh
-
-  
-  build:
-    needs: prepare
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Restore
-      # working-directory: ./src
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --no-restore
       
     - name: Test
+      working-directory: ./src
       run: dotnet test --no-build --verbosity normal
+
     
