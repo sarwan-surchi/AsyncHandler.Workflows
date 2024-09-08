@@ -57,6 +57,8 @@ jobs:
 
     - name: Test
       working-directory: ./src
-      run: dotnet test --verbosity normal
+      run: |
+        dotnet build
+        dotnet test --no-build --verbosity normal
 
     
