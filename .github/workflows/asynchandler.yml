@@ -1,5 +1,5 @@
 
-name: asynchandler
+name: asynchandler ci
 
 on:
   push:
@@ -8,14 +8,36 @@ on:
     branches: [ "main" ]
 
 env:
-  azuresqlenv: ${{ secrets.AZURESQLDATABASE }}
-  mssqlenv: "Server=localhost,1433;Initial Catalog=asynchandler;Persist Security Info=False;User ID=sa;Password=sysadmin@2024;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=true;Connection Timeout=10;"
-  mssql_db: asynchandler
-  mssql_password: sysadmin@2024
+  azuresqlenv: ${{ secrets.AzureSqlDatabase }}
+  mssqlenv: "Server=localhost,1433;Initial Catalog=asynchandler;Persist Security Info=False;User ID=sa;Password=sysadmin@2024;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=true;Connection Timeout=20;"
+  mssqldb: asynchandler
+  mssqlpassword: sysadmin@2024
 
 jobs:
+  
   build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install sdk
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+  test:
+    if: ${{ success() }}
+    needs: build
     runs-on: ubuntu-latest
 
     services:
@@ -25,22 +47,18 @@ jobs:
           - 1433:1433
         env:
           ACCEPT_EULA: true
-          MSSQL_SA_PASSWORD: ${{ env.mssql_password }}
+          MSSQL_SA_PASSWORD: ${{ env.mssqlpassword }}
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-
-    - name: create db
-      run: ./script.sh
+    - name: Run scripts
+      run: ./scripts.sh
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      working-directory: ./src
+      run: |
+        dotnet build
+        dotnet test --no-build --verbosity normal
+
+    

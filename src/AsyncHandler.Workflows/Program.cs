@@ -32,7 +32,6 @@ app.MapPost("placeorder", async (IEventSource<OrderAggregate> service) =>
     aggregate.PlaceOrder(new OrderPlaced());
     await service.Commit(aggregate);
 })
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+.WithName("GetWeatherForecast");
 
 app.Run();

@@ -1,0 +1,34 @@
+name: packs worklfow
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+env:
+  packageId: AsyncHandler.Workflows.GitHub
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      
+    - name: Install sdk
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: build
+      run: dotnet build --configuration release
+
+    - name: pack
+      run: >
+        dotnet pack --no-build --no-restore --configuration release
+        -p:PackageId=${{ env.packageId }} -p:PackageVersion=${{ github.ref_name }} --output .
+
+    - name: push
+      run: >
+        dotnet nuget push ${{ env.packageId }}.${{ github.ref_name }}.nupkg
+        -k ${{ secrets.PACKPAT }} -s github
