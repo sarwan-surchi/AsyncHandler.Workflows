@@ -6,19 +6,21 @@ on:
       - '*.*.*'
 
 env:
-  packageId: AsyncHandler.Workflows.GitHub
+  packageIdd: AsyncHandler.Workflows.GitHub
 
 jobs:
   pack:
+    name: pack it
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./src
 
     steps:
-    - uses: actions/checkout@v4
+    - name: checkout repo
+      uses: actions/checkout@v4
       
-    - name: Install sdk
+    - name: Install net8
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
@@ -29,9 +31,9 @@ jobs:
     - name: pack
       run: >
         dotnet pack --no-build --no-restore --configuration release
-        -p:PackageId=${{ env.packageId }} -p:PackageVersion=${{ github.ref_name }} --output .
+        -p:PackageId=${{ env.packageIdd }} -p:PackageVersion=${{ github.ref_name }} --output .
 
     - name: push
       run: >
-        dotnet nuget push ${{ env.packageId }}.${{ github.ref_name }}.nupkg
+        dotnet nuget push ${{ env.packageIdd }}.${{ github.ref_name }}.nupkg
         -k ${{ secrets.PACKPAT }} -s github
