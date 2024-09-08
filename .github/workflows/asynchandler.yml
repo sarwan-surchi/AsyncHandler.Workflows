@@ -46,8 +46,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-    - name: ls
-      run: ls
 
     - name: Restore
       run: dotnet restore
@@ -57,10 +55,12 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
     steps:
     - uses: actions/checkout@v4
-    - name: ls
-      run: ls
+    
     - name: Test
       run: dotnet test --no-build --verbosity normal
