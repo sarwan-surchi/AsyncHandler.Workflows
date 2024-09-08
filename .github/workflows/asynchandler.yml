@@ -14,7 +14,7 @@ env:
   mssqlpassword: sysadmin@2024
 
 jobs:
-  prepare:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -38,14 +38,9 @@ jobs:
     - name: Run scripts
       run: ./scripts.sh
 
-  test:
-    runs-on: ubuntu-latest
-    defaults:
+    - name: change dir
       run:
-        working-directory: ./src
-    
-    steps:
-    - uses: actions/checkout@v4
+          working-directory: ./src
 
     - name: Restore
       run: dotnet restore
