@@ -39,9 +39,7 @@ jobs:
     #     -k ${{ secrets.PACKPAT }} -s github
 
     - id: get-id
-      run: |
-        id=$(echo ${{ github.event.client_payload.value }})
-        echo "id=$id" >> $GITHUB_OUTPUT
+      run: long="${{ github.ref }}"; version=${long#"refs/tags/v"}; echo "version=${version}" >> $GITHUB_ENV
 
     - name: show info
-      run: echo "${{steps.get-id.outputs.id}}"
+      run: echo "${{ $GITHUB_ENV }}"
