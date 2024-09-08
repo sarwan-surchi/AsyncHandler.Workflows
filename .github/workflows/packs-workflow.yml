@@ -20,23 +20,23 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
       
-    - name: Install net8
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+    # - name: Install net8
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: 8.0.x
 
-    - name: build
-      run: dotnet build --configuration release
+    # - name: build
+    #   run: dotnet build --configuration release
 
-    - name: pack
-      run: >
-        dotnet pack --no-build --no-restore --configuration release
-        -p:PackageId=${{ env.packageIdd }} -p:PackageVersion=${{ github.ref_name }} --output .
+    # - name: pack
+    #   run: >
+    #     dotnet pack --no-build --no-restore --configuration release
+    #     -p:PackageId=${{ env.packageIdd }} -p:PackageVersion=${{ github.ref_name }} --output .
 
-    - name: push
-      run: >
-        dotnet nuget push ${{ env.packageIdd }}.${{ github.ref_name }}.nupkg
-        -k ${{ secrets.PACKPAT }} -s github
+    # - name: push
+    #   run: >
+    #     dotnet nuget push ${{ env.packageIdd }}.${{ github.ref_name }}.nupkg
+    #     -k ${{ secrets.PACKPAT }} -s github
 
     - id: get-id
       run: |
