@@ -45,4 +45,4 @@ jobs:
     - name: push
       run: >
         dotnet nuget push ${{ env.packageIdd }}.${{ steps.get-version.outputs.tag }}.nupkg
-        -k ${{ secrets.GITHUB_TOKEN }} -s workfloww
+        -k ${{ secrets.GITHUB_TOKEN }} -s workflow
