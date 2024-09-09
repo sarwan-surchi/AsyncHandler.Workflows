@@ -39,7 +39,7 @@ jobs:
     #     -k ${{ secrets.PACKPAT }} -s github
 
     - id: get-id
-      run: long="${{ github.ref }}"; version=${long#"refs/tags/v"}; echo "version=${version}" >> $GITHUB_ENV
+      run: long="${{ github.ref }}"; version=${long#"refs/tags/v"}; echo "version=${version}" >> $GITHUB_ENV_Tagg
 
-    - name: show info
-      run: echo "${{ $GITHUB_ENV }}"
+    - name: run shell
+      run: ./gettag.sh
