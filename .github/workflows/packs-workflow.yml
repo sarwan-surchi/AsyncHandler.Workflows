@@ -12,43 +12,32 @@ jobs:
   pack:
     name: pack it
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ./src
+    defaults:
+      run:
+        working-directory: ./src
 
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
       
-    # - name: Install net8
-    #   uses: actions/setup-dotnet@v4
-    #   with:
-    #     dotnet-version: 8.0.x
+    - name: Install net8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
-    # - name: build
-    #   run: dotnet build --configuration release
-
-    # - name: pack
-    #   run: >
-    #     dotnet pack --no-build --no-restore --configuration release
-    #     -p:PackageId=${{ env.packageIdd }} -p:PackageVersion=${{ github.ref_name }} --output .
-
-    # - name: push
-    #   run: >
-    #     dotnet nuget push ${{ env.packageIdd }}.${{ github.ref_name }}.nupkg
-    #     -k ${{ secrets.PACKPAT }} -s github
+    - name: build
+      run: dotnet build --configuration release
 
     - id: get-version
       run: |
         vtag=${{ github.ref_name }}; tag=${vtag#v}; echo "tag=$tag" >> $GITHUB_OUTPUT
 
-    - name: show version
-      run: echo "${{ steps.get-version.outputs.tag }}"
+    - name: pack
+      run: >
+        dotnet pack --no-build --no-restore --configuration release -p:PackageId=${{ env.packageIdd }}
+        -p:PackageVersion=${{ steps.get-version.outputs.tag }} --output .
 
-    #   - id: get-idddd
-    #   run: |
-    #     id=$(echo ${{ github.event.client_payload.value }} | cut -d- -f2)
-    #     echo "id=$id" >> $GITHUB_OUTPUT
-
-    # - name: show info
-    #   run: echo "${{steps.get-id.outputs.id}}"
+    - name: push
+      run: >
+        dotnet nuget push ${{ env.packageIdd }}.${{ steps.get-version.outputs.tag }}.nupkg
+        -k ${{ secrets.PACKPAT }} -s github
