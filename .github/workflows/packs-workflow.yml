@@ -40,7 +40,7 @@ jobs:
 
     - id: get-version
       run: |
-        vtag=${{ github.ref_name }}; tag=${vtag#v}; echo tag=$version >> $GITHUB_OUTPUT
+        vtag=${{ github.ref_name }}; tag=${vtag#v}; echo "tag=$version" >> $GITHUB_OUTPUT
 
     - name: show version
       run: echo "${{ steps.get-version.outputs.version }}"
