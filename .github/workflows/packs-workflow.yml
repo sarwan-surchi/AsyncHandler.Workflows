@@ -38,9 +38,9 @@ jobs:
     #     dotnet nuget push ${{ env.packageIdd }}.${{ github.ref_name }}.nupkg
     #     -k ${{ secrets.PACKPAT }} -s github
 
-    - name: get-version
+    - id: get-version
       run: |
-        vtag=${{ github.ref_name }}; tag=${vtag#v}; echo tag=$version >> $GITHUB_OUTPUT
+        vtag=${{ github.ref_name }}; tag=${vtag#v}; tag >> $GITHUB_OUTPUT
 
     - name: show version
-      run: echo "${{ steps.get-version.outputs.version }}"
+      run: echo "${{ steps.get-version.outputs.tag }}"
