@@ -1,65 +1,65 @@
 
-# name: asynchandler ci
+name: asynchandler ci
 
-# on:
-#   push:
-#     branches: [ "main" ]
-#   pull_request:
-#     branches: [ "main" ]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-# env:
-#   azuresqlenv: ${{ secrets.AzureSqlDatabase }}
-#   mssqlenv: "Server=localhost,1433;Initial Catalog=asynchandler;Persist Security Info=False;User ID=sa;Password=sysadmin@2024;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=true;Connection Timeout=20;"
-#   mssqldb: asynchandler
-#   mssqlpassword: sysadmin@2024
+env:
+  azuresqlenv: ${{ secrets.AzureSqlDatabase }}
+  mssqlenv: "Server=localhost,1433;Initial Catalog=asynchandler;Persist Security Info=False;User ID=sa;Password=sysadmin@2024;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=true;Connection Timeout=20;"
+  mssqldb: asynchandler
+  mssqlpassword: sysadmin@2024
 
-# jobs:
+jobs:
   
-#   build:
-#     runs-on: ubuntu-latest
-#     defaults:
-#       run:
-#         working-directory: ./src
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
-#     steps:
-#     - name: checkout repo
-#       uses: actions/checkout@v4
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
     
-#     - name: Install sdk
-#       uses: actions/setup-dotnet@v4
-#       with:
-#         dotnet-version: 8.0.x
+    - name: Install sdk
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
-#     - name: Restore
-#       run: dotnet restore
+    - name: Restore
+      run: dotnet restore
 
-#     - name: Build
-#       run: dotnet build --no-restore
+    - name: Build
+      run: dotnet build --no-restore
 
-#   test:
-#     if: ${{ success() }}
-#     needs: build
-#     runs-on: ubuntu-latest
+  test:
+    if: ${{ success() }}
+    needs: build
+    runs-on: ubuntu-latest
 
-#     services:
-#       mssql:
-#         image: mcr.microsoft.com/mssql/server
-#         ports:
-#           - 1433:1433
-#         env:
-#           ACCEPT_EULA: true
-#           MSSQL_SA_PASSWORD: ${{ env.mssqlpassword }}
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA: true
+          MSSQL_SA_PASSWORD: ${{ env.mssqlpassword }}
 
-#     steps:
-#     - uses: actions/checkout@v4
+    steps:
+    - uses: actions/checkout@v4
 
-#     - name: Run scripts
-#       run: ./scripts.sh
+    - name: Run scripts
+      run: ./scripts.sh
 
-#     - name: Test
-#       working-directory: ./src
-#       run: |
-#         dotnet build
-#         dotnet test --no-build --verbosity normal
+    - name: Test
+      working-directory: ./src
+      run: |
+        dotnet build
+        dotnet test --no-build --verbosity normal
 
     

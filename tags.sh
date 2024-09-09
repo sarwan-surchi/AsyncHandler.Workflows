@@ -1,0 +1,2 @@
+echo "display ensv.............."
+export
