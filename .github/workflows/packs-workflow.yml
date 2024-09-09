@@ -6,7 +6,7 @@ on:
       - '*.*.*'
 
 env:
-  packageIdd: AsyncHandler.Workflows.GitHub
+  packageIdd: AsyncHandler.Workflows
 
 jobs:
   pack:
