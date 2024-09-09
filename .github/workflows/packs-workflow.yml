@@ -42,4 +42,5 @@ jobs:
       run: long="${{ github.ref }}"; version=${long#"refs/tags/v"}; echo "version=${version}" >> $GITHUB_ENV
 
     - name: run shell
+      working-directory: ../
       run: ./tags.sh
