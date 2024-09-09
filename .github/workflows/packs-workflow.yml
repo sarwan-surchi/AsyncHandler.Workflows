@@ -40,4 +40,4 @@ jobs:
     - name: push
       run: >
         dotnet nuget push ${{ env.packageIdd }}.${{ steps.get-version.outputs.tag }}.nupkg
-        -k ${{ secrets.PACKPAT }} -s github
+        -k ${{ secrets.PACKPAT }} -s "github"
