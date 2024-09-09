@@ -40,7 +40,15 @@ jobs:
 
     - id: get-version
       run: |
-        vtag=${{ github.ref_name }}; tag=${vtag#v}; echo "tag=$version" >> $GITHUB_OUTPUT
+        vtag=${{ github.ref_name }}; tag=${vtag#v}; echo "tag=$tag" >> $GITHUB_OUTPUT
 
     - name: show version
-      run: echo "${{ steps.get-version.outputs.version }}"
+      run: echo "${{ steps.get-version.outputs.tag }}"
+
+    #   - id: get-idddd
+    #   run: |
+    #     id=$(echo ${{ github.event.client_payload.value }} | cut -d- -f2)
+    #     echo "id=$id" >> $GITHUB_OUTPUT
+
+    # - name: show info
+    #   run: echo "${{steps.get-id.outputs.id}}"
