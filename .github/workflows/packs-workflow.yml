@@ -10,8 +10,9 @@ env:
 
 jobs:
   pack:
-    name: pack it
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     defaults:
       run:
         working-directory: ./src
