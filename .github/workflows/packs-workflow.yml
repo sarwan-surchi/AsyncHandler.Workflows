@@ -6,12 +6,13 @@ on:
       - '*.*.*'
 
 env:
-  packageIdd: AsyncHandler.Workflows.GitHub
+  packageIdd: AsyncHandler.Workflows
 
 jobs:
   pack:
-    name: pack it
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     defaults:
       run:
         working-directory: ./src
@@ -45,4 +46,4 @@ jobs:
     - name: push
       run: >
         dotnet nuget push ${{ env.packageIdd }}.${{ steps.get-version.outputs.tag }}.nupkg
-        -k ${{ secrets.GITHUB_TOKEN }} -s workfloww
+        -k ${{ secrets.GITHUB_TOKEN }} -s workflow
