@@ -5,13 +5,13 @@
     <!-- <LangVersion>13</LangVersion> -->
     <!-- <GeneratePackageOnBuild>true</GeneratePackageOnBuild> -->
     <!-- <PackageId>AsyncHandler.EventSourcing</PackageId> -->
-    <Version>1.0.1</Version>
+    <Version>1.0.6</Version>
     <Authors>asynchandler</Authors>
     <Company>asynchandler</Company>
     <PackageTags>EventSourcing;EventStore;CICD;GitHub;Workflows;Postgres;Event-Driven</PackageTags>
     <Description>Github workflows and packages</Description>
     <PackageProjectUrl>https://github.com/sarwan-surchi/AsyncHandler.Workflows</PackageProjectUrl>
-    <PackageIcon>github.png</PackageIcon>
+    <PackageIcon>ah.jpg</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/sarwan-surchi/AsyncHandler.Workflows</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <None Include="..\..\assets\github.png" Pack="true" PackagePath=""/>
+    <None Include="..\..\assets\ah.jpg" Pack="true" PackagePath=""/>
     <None Include="README.md" Pack="true" PackagePath="\"/>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
   </ItemGroup>
