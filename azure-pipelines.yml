@@ -6,8 +6,7 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+pool: mypool
 
 variables:
   buildConfiguration: 'Release'
@@ -17,3 +16,4 @@ steps:
     cd src
     dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
